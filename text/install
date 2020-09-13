@@ -1,0 +1,14 @@
+Node.JS, NPM 설치
+babel, webpack, webpack-dev-server 
+	( npm install –g babel webpack webpack-dev-server )
+
+Nodejs 프로젝트를 생성 (npm init)
+의존 패키지 및 플러그인 설치
+	npm install --save react react-dom 
+	npm install --save-dev babel-core babel-loader babel-preset-react babel-preset-es2015 webpack webpack-dev-server
+
+# 현재는 저렇게 복잡한 명령어를 입력할 필요가 없다!
+Node.js 설치(npm 함께 설치됨)
+npm install npx -g: 1회성으로 최신 버전의 노드 패키지를 내려받아 설치시켜주는 노드 패키지
+npx create-react-app appName
+`
