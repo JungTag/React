@@ -13,8 +13,14 @@ import './App.css';
 
 // 1. 시간과 분이 변화
 // 2. 동적으로 변화
-class WordClock extends React.Component {
-
+class WordClock extends React.PureComponent {
+  
+  /*
+  constructor
+  1. State 구조 설정(handling함수 this binding 설정)
+  2. 컴포넌트가 Mount하기 전에 할 설정
+  3. setState X
+  */
   constructor(props) {
     super(props)
     this.state = {
@@ -24,13 +30,43 @@ class WordClock extends React.Component {
     }
     // this.setState
     // this.state.minute += 1 절대 안됨!
+    console.log("  Child) 시작합니다")
+  }
+
+  /*
+  ComponentDidMount
+  1. 필요한 데이터 요청
+  2. 각종 비동기 요청(Subscription)
+  */  
+  componentDidMount(){
     this.timer = setInterval(() => {
       this.setState((state) => (
         state.minute === 59
           ? { hour: state.hour + 1, minute: 0 }
           : { minute: state.minute + 1 }
       ))
-    }, 100)
+    }, 5000)
+    console.log("  Child) 마운트되었습니다.")
+  }
+
+  /*
+  ComponentDidUpdate
+  1. 업데이트 이후 수정할 때
+  2. if() {setState()} -> 조건절을 통해 setState
+   - why? setState -> DidUpdate -> setState...(무한루프)
+  */    
+  componentDidUpdate(){
+    console.log("  Child) 업데이트!")
+  }
+
+  /*
+  ComponentWillUnmount
+  1. 데이터 요청, 비동기 함수, 타이머 종료
+  2. setState X (위와 동일)
+  */    
+  componentWillUnmount() {
+    console.log("  Child) 언마운트!")
+    clearInterval(this.timer)
   }
 
   // 핸들링함수는 화살표 함수로 작성!
@@ -52,6 +88,7 @@ class WordClock extends React.Component {
   }
 }
 
+
 class App extends React.Component {
   constructor(props) {
     super(props)
@@ -63,8 +100,18 @@ class App extends React.Component {
       ['부산', 10]
     ]
     this.state = {
-      content: ''
+      content: '',
+      show: true,
     }
+    console.log("Parent) 시작합니다")
+  }
+
+  componentDidMount(){
+    console.log("Parent) 마운트되었습니다.")
+  }
+
+  componentDidUpdate(){
+    console.log("  Parent) 업데이트!")
   }
 
   handlingChange = (event) => {
@@ -72,11 +119,22 @@ class App extends React.Component {
     console.log(event)
   }
 
+  handlingClick = (event) => {
+    this.setState((prevState)=> ({show: !prevState.show}))
+  }
+  /*
+  이벤트 핸들링 3단계
+  1. 필요한 state를 만든다.
+  2. 핸들링 함수를 만든다.
+  3. 해당 요소에 연결한다.
+   */
   render () {
     return (
       <div>
         <textarea value={this.state.content} onChange={this.handlingChange}></textarea>
-        {this.cityTimeData.map((citytime, index) =>
+        <button onClick={this.handlingClick}>손가락 튕기기</button>
+        
+        { this.state.show && this.cityTimeData.map((citytime, index) =>
           <WordClock city={citytime[0]} time={citytime[1]} key={index} />
         )}
       </div>
