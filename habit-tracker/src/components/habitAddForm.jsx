@@ -8,7 +8,7 @@ class HabitAddForm extends Component {
         e.preventDefault();
         // console.log(this.inputRef.current.value);
         const name = this.inputRef.current.value;
-        name && this.props.onAdd(name);
+        name && this.props.onAdd(name); // name이 있다면 해당 함수를 실행한다!!
         //this.inputRef.current.value = '';
         this.formRef.current.reset();
     }
