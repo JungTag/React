@@ -1,11 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
-import App from './app';
+import Kitchen from './kitchen';
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Kitchen />
   </React.StrictMode>,
   document.getElementById('root')
 );
